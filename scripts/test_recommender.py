@@ -1,8 +1,8 @@
+from movie_recommender import MovieRecommender
 from movie_recommender.config import (
     MOVIE_METADATA_PATH,
     TFIDF_MATRIX_PATH,
 )
-from movie_recommender import MovieRecommender
 
 
 def main() -> None:

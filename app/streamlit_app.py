@@ -9,13 +9,11 @@ from dotenv import load_dotenv
 from app.components.movie_card import render_movie_card
 from app.components.search import render_movie_search
 from app.services.tmdb import build_poster_url, get_movie_details
-
 from movie_recommender import MovieRecommender
 from movie_recommender.config import (
     MOVIE_METADATA_PATH,
     TFIDF_MATRIX_PATH,
 )
-
 
 # --------------------------------------------------
 # Configuration
