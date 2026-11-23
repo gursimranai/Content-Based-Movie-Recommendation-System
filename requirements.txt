@@ -1,0 +1,25 @@
+
+# Data processing
+numpy
+pandas
+
+# Data visualization
+matplotlib
+seaborn
+plotly
+
+# Machine learning and NLP
+scikit-learn
+nltk
+
+# Application
+streamlit
+requests
+python-dotenv
+
+# Model persistence
+joblib
+
+# Testing and code quality
+pytest
+ruff
