@@ -30,3 +30,7 @@ htmlcov/
 # OS
 .DS_Store
 Thumbs.db
+# Coverage reports
+.coverage
+coverage.xml
+htmlcov/
