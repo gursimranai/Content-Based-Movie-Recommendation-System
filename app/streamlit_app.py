@@ -1,10 +1,17 @@
 import logging
 import os
+import sys
 from pathlib import Path
 
 import requests
 import streamlit as st
 from dotenv import load_dotenv
+
+# Ensure the repository root is available for package imports.
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 from app.components.movie_card import render_movie_card
 from app.components.search import render_movie_search
@@ -21,11 +28,9 @@ from movie_recommender.config import (
 
 logger = logging.getLogger(__name__)
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
 CSS_PATH = PROJECT_ROOT / "app" / "styles" / "main.css"
 
 load_dotenv(PROJECT_ROOT / ".env")
-
 
 def get_tmdb_api_key() -> str:
     """Read the TMDB API key from Streamlit secrets or local environment."""
