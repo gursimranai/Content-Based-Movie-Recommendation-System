@@ -1,0 +1,131 @@
+
+/* Global application styling */
+
+.stApp {
+    background: #101116;
+    color: #e8e9ef;
+}
+
+header[data-testid="stHeader"] {
+    background: transparent;
+}
+
+.block-container {
+    max-width: 1100px;
+    padding-top: 2.5rem;
+    padding-bottom: 3rem;
+}
+
+/* Main heading */
+
+.main-heading {
+    font-size: 2.1rem;
+    font-weight: 700;
+    letter-spacing: -1px;
+    color: #f4f4f8;
+    margin-bottom: 0.35rem;
+}
+
+.subtitle {
+    color: #9699a8;
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+}
+
+/* Section headings */
+
+.section-heading {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #e8e9ef;
+    margin: 1.5rem 0 1rem;
+}
+
+/* Selected movie */
+
+.selected-movie {
+    background: #191b24;
+    border: 1px solid #2b2e3a;
+    border-radius: 12px;
+    padding: 18px;
+    margin-top: 15px;
+}
+
+/* Recommendation card */
+
+.movie-card {
+    background: #191b24;
+    border: 1px solid #2b2e3a;
+    border-radius: 12px;
+    padding: 12px;
+    height: 100%;
+}
+
+.movie-title {
+    color: #f4f4f8;
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-top: 8px;
+}
+
+.movie-score {
+    color: #a78bfa;
+    font-size: 0.82rem;
+    margin-top: 5px;
+}
+
+/* Model information */
+
+.model-panel {
+    background: #191b24;
+    border: 1px solid #2b2e3a;
+    border-radius: 12px;
+    padding: 18px;
+    margin-top: 25px;
+}
+
+.model-label {
+    color: #9295a4;
+    font-size: 0.8rem;
+}
+
+.model-value {
+    color: #f4f4f8;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+/* Buttons */
+
+.stButton > button {
+    background: #8064e8;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    min-height: 42px;
+}
+
+.stButton > button:hover {
+    background: #9279f0;
+    color: white;
+}
+
+/* Input */
+
+.stTextInput input {
+    background: #191b24;
+    color: #f4f4f8;
+    border: 1px solid #343744;
+    border-radius: 8px;
+}
+
+.stTextInput input:focus {
+    border-color: #8064e8;
+}
+
+/* Divider */
+
+hr {
+    border-color: #2b2e3a;
+}
