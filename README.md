@@ -1,21 +1,25 @@
 # 🎬 Movie Recommendation System
 
 <p align="center">
-  <strong>Discover movies you'll love.</strong>
-  <br/>
-  An intelligent content-based movie recommendation engine powered by Machine Learning and Natural Language Processing.
-  <br/><br/>
-  <a href="YOUR_FRONTEND_DEPLOYMENT_URL">🌐 Live Demo</a> •
-  <a href="YOUR_BACKEND_DEPLOYMENT_URL/docs">📖 API Documentation</a> •
-  <a href="https://github.com/gursimranai/Movie-Recommendation-System">⭐ GitHub Repository</a>
+  <strong>Discover movies similar to the ones you love.</strong>
+  <br />
+  A content-based movie recommendation system built using Python, Natural Language Processing, TF-IDF, and Cosine Similarity.
+  <br /><br />
+  <a href="https://content-based-movie-recommendation-system-rqy8ony5ukzrbca8xksk.streamlit.app/">
+    🌐 Live Application
+  </a>
+  •
+  <a href="https://github.com/gursimranai/Movie-Recommendation-System">
+    ⭐ GitHub Repository
+  </a>
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python"/>
-  <img src="https://img.shields.io/badge/Machine_Learning-F7931E?style=for-the-badge&logo=scikitlearn&logoColor=white" alt="Machine Learning"/>
-  <img src="https://img.shields.io/badge/NLP-8A2BE2?style=for-the-badge" alt="NLP"/>
-  <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI"/>
+  <img src="https://img.shields.io/badge/Scikit--learn-F7931E?style=for-the-badge&logo=scikitlearn&logoColor=white" alt="Scikit-learn"/>
   <img src="https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white" alt="Streamlit"/>
+  <img src="https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white" alt="Pandas"/>
+  <img src="https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white" alt="NumPy"/>
 </p>
 
 ---
@@ -24,99 +28,126 @@
 
 Finding your next favorite movie shouldn't be difficult.
 
-**Movie Recommendation System** is a machine-learning project that analyzes movie metadata and recommends similar movies using content-based filtering.
+**Movie Recommendation System** is a machine-learning project that recommends movies based on their content and metadata.
 
-By combining Natural Language Processing, TF-IDF vectorization, and Cosine Similarity, the system identifies relationships between movies and generates recommendations based on their content.
+It uses a content-based filtering approach to identify similarities between movies. Movie attributes are combined into textual features, transformed into numerical representations using TF-IDF, and compared using Cosine Similarity.
 
-The project also integrates a FastAPI backend and an interactive Streamlit frontend, bringing the recommendation engine into a deployable web application.
+The application provides an interactive Streamlit interface where users can search for a movie, select the number of recommendations, and discover similar titles.
 
----
+Movie information and posters are retrieved using the TMDB API.
 
 ## 🌐 Live Application
 
 <p align="center">
-  <a href="YOUR_FRONTEND_DEPLOYMENT_URL">
-    <img src="https://img.shields.io/badge/🚀_Explore_Live_Application-Visit_Now-6C63FF?style=for-the-badge" alt="Live Application"/>
+  <a href="https://content-based-movie-recommendation-system-rqy8ony5ukzrbca8xksk.streamlit.app/">
+    <img src="https://img.shields.io/badge/🚀_Explore_Live_Application-6C63FF?style=for-the-badge" alt="Explore Live Application"/>
   </a>
 </p>
 
-| Service | Link |
-|:---|:---|
-| 🌐 Web Application | [Open Application](YOUR_FRONTEND_DEPLOYMENT_URL) |
-| ⚡ Backend API | [API Endpoint](YOUR_BACKEND_DEPLOYMENT_URL) |
-| 📚 API Documentation | [FastAPI Swagger UI](YOUR_BACKEND_DEPLOYMENT_URL/docs) |
+**[Open Movie Recommendation System](https://content-based-movie-recommendation-system-rqy8ony5ukzrbca8xksk.streamlit.app/)**
+
+The application is deployed using Streamlit Community Cloud.
 
 ---
 
-## ✨ Key Features
+## 🖼️ Application Screenshots
+
+### Movie Search and Selection
+
+Users can search for a movie and select how many recommendations they want.
+
+![Movie Search Interface](assets/screenshots/homepage.png)
+
+### Movie Recommendations
+
+The system displays similar movies with their posters, release years, TMDB IDs, cosine similarity scores, and links to movie overviews.
+
+![Movie Recommendations](assets/screenshots/recommendations.png)
+
+---
+
+## ✨ Features
 
 | Feature | Description |
-|:---|:---|
+|---|---|
 | 🎯 Content-Based Filtering | Recommends movies based on their content and metadata. |
-| 🧠 NLP Processing | Processes movie descriptions and related textual information. |
-| 🔢 TF-IDF Vectorization | Converts movie text into numerical feature vectors. |
+| 🔎 Movie Search | Search and select movies from the available dataset. |
+| 🔢 TF-IDF Vectorization | Converts textual movie features into numerical vectors. |
 | 📐 Cosine Similarity | Measures similarity between movie representations. |
-| ⚡ FastAPI Backend | Provides recommendation functionality through REST APIs. |
-| 🎨 Streamlit Interface | Provides an interactive movie discovery experience. |
-| 🎬 Movie Discovery | Helps users explore movies related to their selections. |
-| ☁️ Deployment | Makes the application accessible through a hosted interface. |
+| 🎬 Movie Recommendations | Returns the most similar movies for a selected title. |
+| 🎨 Streamlit Interface | Interactive web application with a custom-styled interface. |
+| 🖼️ Movie Posters | Retrieves movie posters and details through the TMDB API. |
+| ⚙️ Configurable Results | Choose between 5, 10, 15, and 20 recommendations. |
+| 🧪 Automated Testing | Tests the recommendation engine, application, TMDB service, and training script. |
+| ☁️ Cloud Deployment | Accessible through Streamlit Community Cloud. |
 
 ---
 
-## 🧠 Recommendation Engine
+## 🧠 How the Recommendation System Works
 
-The recommendation engine follows a content-based filtering approach.
+This project uses **Content-Based Filtering**.
 
-### How does it work?
+Instead of recommending movies based on what other users watched, the system analyzes movie attributes and identifies titles with similar content.
+
+### Recommendation Pipeline
 
 ```mermaid
 flowchart TD
-    A["🎬 Movie Dataset"] --> B["Data Cleaning"]
-    B --> C["Text Preprocessing"]
+    A["🎬 TMDB Movie Dataset"] --> B["Data Understanding"]
+    B --> C["Data Cleaning and Preprocessing"]
     C --> D["Feature Engineering"]
-    D --> E["TF-IDF Vectorization"]
-    E --> F["Cosine Similarity"]
-    F --> G["Movie Ranking"]
-    G --> H["Recommended Movies"]
-    H --> I["Streamlit Interface"]
-
-    style A fill:#172554,stroke:#3B82F6,color:#fff
-    style F fill:#312E81,stroke:#818CF8,color:#fff
-    style H fill:#064E3B,stroke:#10B981,color:#fff
+    D --> E["Combine Movie Attributes"]
+    E --> F["TF-IDF Vectorization"]
+    F --> G["Cosine Similarity"]
+    G --> H["Rank Similar Movies"]
+    H --> I["🎯 Top-N Recommendations"]
+    I --> J["Streamlit Application"]
+    J --> K["TMDB Movie Details and Posters"]
 ```
 
 ### Processing Steps
 
-1. **Data Preparation** – Load movie datasets and relevant metadata.
-2. **Data Cleaning** – Handle missing values, duplicate records, and inconsistent information.
-3. **Feature Engineering** – Combine relevant attributes such as genres, keywords, cast, crew, and movie overview.
-4. **Text Vectorization** – Apply TF-IDF to transform textual features into numerical representations.
-5. **Similarity Calculation** – Calculate cosine similarity between movie vectors.
-6. **Recommendation Generation** – Rank movies according to their similarity scores.
-7. **API Integration** – Serve recommendations through FastAPI.
-8. **Frontend Display** – Present movie recommendations through Streamlit.
+1. **Data Understanding** – Explore the movie datasets and understand their columns, distributions, and relationships.
+2. **Data Preprocessing** – Handle missing values, parse metadata, and prepare the movie information.
+3. **Feature Engineering** – Combine relevant movie attributes, including genres, keywords, cast, crew, and overview, into textual features.
+4. **TF-IDF Vectorization** – Transform the combined textual features into numerical vectors.
+5. **Cosine Similarity** – Compare movie vectors to measure how similar their content is.
+6. **Recommendation Generation** – Rank movies by similarity and return the requested number of results.
+7. **Application Integration** – Display recommendations through the Streamlit interface.
+
+### Recommendation Example
+
+For the selected movie **Avatar**, the application returns similar titles such as:
+
+| Recommended Movie | Release Year |
+|---|---:|
+| Aliens | 1986 |
+| Alien | 1979 |
+| Moonraker | 1979 |
+| Alien³ | 1992 |
+| Silent Running | 1972 |
+
+The application also displays the corresponding cosine similarity scores.
 
 ---
 
 ## 🛠️ Technology Stack
 
-<p align="center">
-  <img src="https://skillicons.dev/icons?i=python,fastapi,sklearn,git,github" alt="Technology stack"/>
-</p>
-
 | Category | Technologies |
-|:---|:---|
-| Language | Python |
+|---|---|
+| Programming Language | Python |
 | Data Processing | Pandas, NumPy |
 | Machine Learning | Scikit-learn |
 | Natural Language Processing | Text Preprocessing, TF-IDF |
 | Similarity Measurement | Cosine Similarity |
-| Backend | FastAPI |
-| Frontend | Streamlit |
-| Movie Data | TMDB, MovieLens |
-| Model Serialization | Pickle |
+| Sparse Matrix Processing | SciPy |
+| Model Serialization | Joblib |
+| Frontend and Application | Streamlit |
+| External Movie Data | TMDB API |
+| Testing | Pytest |
+| Code Quality | Ruff |
 | Version Control | Git, GitHub |
-| Deployment | Cloud Hosting |
+| Deployment | Streamlit Community Cloud |
 
 ---
 
@@ -125,37 +156,70 @@ flowchart TD
 ```text
 Movie-Recommendation-System/
 │
+├── app/
+│   ├── components/
+│   │   ├── movie_card.py
+│   │   └── search.py
+│   │
+│   ├── services/
+│   │   └── tmdb.py
+│   │
+│   ├── styles/
+│   │   └── main.css
+│   │
+│   └── streamlit_app.py
+│
 ├── data/
 │   ├── raw/
+│   │   ├── tmdb_5000_credits.csv
+│   │   ├── tmdb_5000_movies.csv
+│   │   └── README.md
+│   │
+│   ├── interim/
 │   └── processed/
 │
-├── notebooks/
-│   └── model_experimentation.ipynb
-│
 ├── models/
+│   ├── movies_metadata.joblib
+│   └── tfidf_matrix.joblib
+│
+├── notebooks/
+│   ├── 01-data-understanding.ipynb
+│   ├── 02_exploratory_data_analysis.ipynb
+│   ├── 03_data_preprocessing.ipynb
+│   ├── 04_feature_engineering.ipynb
+│   ├── 05_content_based_recommendation.ipynb
+│   └── 06_model_evaluation.ipynb
+│
+├── scripts/
+│   └── train_model.py
 │
 ├── src/
-│   └── recommender/
-│
-├── app/
-│   ├── frontend/
-│   └── backend/
+│   └── movie_recommender/
+│       ├── __init__.py
+│       ├── config.py
+│       └── recommender.py
 │
 ├── tests/
+│   ├── test_recommender.py
+│   ├── test_streamlit_app.py
+│   ├── test_tmdb.py
+│   └── test_train_model.py
 │
-├── requirements.txt
+├── .env.example
 ├── .gitignore
-├── LICENSE
+├── pyproject.toml
+├── requirements.txt
+├── requirements-dev.txt
 └── README.md
 ```
 
-*The structure shown is illustrative; refer to the actual repository for the current implementation.*
+*Generated datasets and unused model artifacts are excluded from version control.*
 
 ---
 
 ## 🚀 Getting Started
 
-Want to run the project locally? Follow these steps.
+Follow these steps to run the project locally.
 
 ### Prerequisites
 
@@ -167,6 +231,7 @@ Want to run the project locally? Follow these steps.
 
 ```bash
 git clone https://github.com/gursimranai/Movie-Recommendation-System.git
+
 cd Movie-Recommendation-System
 ```
 
@@ -176,7 +241,7 @@ cd Movie-Recommendation-System
 python -m venv .venv
 ```
 
-Activate on Windows:
+Activate the environment on Windows:
 
 ```powershell
 .venv\Scripts\activate
@@ -191,128 +256,124 @@ source .venv/bin/activate
 ### 3. Install Dependencies
 
 ```bash
+python -m pip install --upgrade pip
+
 pip install -r requirements.txt
 ```
 
-### 4. Configure Environment Variables
+### 4. Configure TMDB API Key (Optional)
 
-If your implementation uses TMDB API credentials, create a `.env` file:
+The application can generate recommendations without a TMDB API key. However, movie posters and additional movie details require TMDB access.
+
+Create a `.env` file in the project root:
 
 ```env
-TMDB_API_KEY=your_api_key
+TMDB_API_KEY=your_tmdb_api_key
 ```
 
-Keep credentials private and never commit your `.env` file.
+Never commit your actual API key or `.env` file.
 
-### 5. Start the Backend
+### 5. Run the Application
 
 ```bash
-uvicorn app.backend.main:app --reload
+streamlit run app/streamlit_app.py
 ```
 
-### 6. Start the Frontend
-
-Open another terminal:
-
-```bash
-streamlit run app.frontend.streamlit_app
-```
-
-*Update the module paths and commands according to the actual application entry points.*
+The application will open in your browser.
 
 ---
 
-## 📊 Datasets
+## 📊 Dataset
 
-The project uses movie metadata for developing and experimenting with recommendation algorithms.
+This project uses the TMDB 5000 movie metadata datasets.
 
-Potential datasets used in the project:
-
-- **TMDB 5000 Movies Dataset**
-- **TMDB 5000 Credits Dataset**
-- **MovieLens Latest Small Dataset**
+| Dataset | Description |
+|---|---|
+| TMDB 5000 Movies | Movie information, genres, keywords, overview, and other metadata. |
+| TMDB 5000 Credits | Cast and crew information associated with movies. |
 
 ### Dataset Resources
 
-- [TMDB Movie Metadata – Kaggle](https://www.kaggle.com/datasets/tmdb/tmdb-movie-metadata)
-- [MovieLens – GroupLens](https://grouplens.org/datasets/movielens/)
+- [TMDB 5000 Movie Dataset – Kaggle](https://www.kaggle.com/datasets/tmdb/tmdb-movie-metadata)
+- [TMDB API Documentation](https://developer.themoviedb.org/docs)
+
+The raw CSV files are not included in the Git repository. Refer to `data/raw/README.md` for dataset information.
 
 ---
 
-## 🖼️ Screenshots
+## 🧪 Testing and Code Quality
 
-<p align="center">
-  <i>Application screenshots coming soon.</i>
-</p>
+The project includes automated tests for the core recommendation engine, Streamlit application, TMDB service, and model training functionality.
 
-<!-- Replace the placeholders with actual screenshots from your application.
+Run the test suite:
 
-<p align="center">
-  <img src="assets/homepage.png" width="85%" alt="Application Homepage"/>
-  <br/>
-  <em>Movie Recommendation System — Homepage</em>
-</p>
+```bash
+python -m pytest -v
+```
 
-<p align="center">
-  <img src="assets/recommendations.png" width="85%" alt="Movie Recommendations"/>
-  <br/>
-  <em>Recommended Movies</em>
-</p>
--->
+Check code quality with Ruff:
 
----
+```bash
+python -m ruff check .
+```
 
-## 🔨 Development & Improvements
+Check formatting:
 
-This project was initially developed with guidance from an educational tutorial and has been extended through additional implementation, experimentation, and improvements.
+```bash
+python -m ruff format --check .
+```
 
-The development process focuses on:
+### Current Verification
 
-- Understanding and implementing recommendation algorithms.
-- Improving code organization and modularity.
-- Separating machine-learning functionality from backend services.
-- Enhancing the application interface.
-- Improving reliability and error handling.
-- Making the application deployable and accessible.
+| Verification | Result |
+|---|---|
+| Automated tests | 44 passed |
+| Ruff linting | Passed |
+| Ruff formatting | Passed |
+| Model artifact loading | Passed |
+| Movies in recommendation model | 4,803 |
+
+*These results reflect the local verification performed during deployment preparation.*
 
 ---
 
-## 🗺️ Future Roadmap
+## 🔨 Development and Learning
 
-The following are potential improvements for future development:
+This project was initially developed with guidance from educational tutorials and further extended through implementation, experimentation, and improvements.
 
-- [ ] Improve recommendation relevance and ranking.
-- [ ] Add collaborative filtering.
-- [ ] Explore hybrid recommendation algorithms.
-- [ ] Introduce personalized movie recommendations.
-- [ ] Improve movie search and filtering.
-- [ ] Expand automated testing.
-- [ ] Optimize recommendation performance.
-- [ ] Enhance frontend responsiveness.
+The development work focused on:
+
+- Understanding content-based recommendation algorithms.
+- Exploring and preprocessing movie metadata.
+- Building a TF-IDF-based recommendation engine.
+- Implementing cosine similarity for movie ranking.
+- Organizing code into reusable Python modules.
+- Integrating an external movie information API.
+- Building an interactive Streamlit application.
+- Writing automated tests and improving code quality.
+- Deploying the application to the cloud.
 
 ---
 
-## 🙏 Acknowledgements & Learning Resources
+## 🙏 Acknowledgements and Learning Resources
 
-This project was developed with guidance from educational tutorials, followed by independent experimentation, modifications, and additional improvements.
+This project was developed as a learning exercise, using educational resources as guidance, followed by additional implementation and experimentation.
 
-### 🎓 Tutorial References
+### 1. Sheryians AI School
 
-**1. Sheryians AI School — End-to-End Movie Recommendation System using NLP and FastAPI**
+**End-to-End Movie Recommendation System using NLP and FastAPI**
 
 [▶ Watch Tutorial](https://www.youtube.com/watch?v=IoL9FzHvL3I&t=5240s)
 
-Provided guidance on building a content-based recommendation system, NLP preprocessing, TF-IDF, cosine similarity, and FastAPI integration.
+An educational reference for understanding movie recommendation systems, text preprocessing, TF-IDF, cosine similarity, and application development.
 
-**2. CampusX — Movie Recommendation System**
+### 2. CampusX
+
+**Movie Recommendation System**
 
 [▶ Watch Tutorial](https://youtu.be/1xtrIEwY_zY?si=Nsf-Y0Fw7BkZeN_Z)
 
-Provided additional learning resources and insights into movie recommendation techniques and their implementation.
-
-### 💡 Project Development
-
-Both resources contributed to my learning and understanding of recommendation systems. The project has been further developed through my own implementation, experimentation, modifications, and deployment efforts.
+An additional learning resource for understanding content-based recommendation techniques and their implementation.
 
 Full credit to the original creators for their educational content and guidance.
 
@@ -320,11 +381,11 @@ Full credit to the original creators for their educational content and guidance.
 
 ## 👨‍💻 Author
 
+**Gursimran Singh**
+
+Computer Science Undergraduate | AI & ML Enthusiast
+
 <p align="center">
-  <strong>Gursimran Singh</strong>
-  <br/>
-  Computer Science Undergraduate | AI & ML Enthusiast
-  <br/><br/>
   <a href="https://github.com/gursimranai">
     <img src="https://img.shields.io/badge/GitHub-gursimranai-181717?style=for-the-badge&logo=github" alt="GitHub"/>
   </a>
@@ -335,14 +396,8 @@ Full credit to the original creators for their educational content and guidance.
 
 ---
 
-## 📄 License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
----
-
 <p align="center">
   <strong>⭐ If you find this project interesting, consider giving it a star!</strong>
-  <br/>
+  <br />
   Built with Python, Machine Learning, and curiosity. 🍿
 </p>
