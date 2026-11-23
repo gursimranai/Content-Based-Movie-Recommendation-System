@@ -1,12 +1,7 @@
 
 -r requirements.txt
 
-# Testing
 pytest
 pytest-cov
-
-# Code quality
 ruff
-
-# Package building
 build

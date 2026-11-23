@@ -44,6 +44,8 @@ data/processed/*
 
 # Trained model artifacts
 models/*
+!models/tfidf_matrix.joblib
+!models/movies_metadata.joblib
 
 # Python build artifacts
 build/

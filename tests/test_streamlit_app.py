@@ -1,12 +1,11 @@
 from pathlib import Path
 
 import pandas as pd
-import streamlit as st
 import pytest
+import streamlit as st
 from streamlit.testing.v1 import AppTest
 
 from movie_recommender import MovieRecommender
-
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 APP_PATH = PROJECT_ROOT / "app" / "streamlit_app.py"
@@ -22,19 +21,52 @@ class FakeRecommender:
         }
     )
 
-    def recommend(self, movie_title, top_n=5):
-        if movie_title.casefold() != "avatar":
-            raise ValueError("Unknown movie")
+    def recommend_by_id(self, movie_id, top_n=5):
+        """Return predictable recommendations using a movie ID."""
 
-        recommendations = pd.DataFrame(
-            {
-                "id": [679, 348],
-                "title": ["Aliens", "Alien"],
-                "similarity_score": [0.42, 0.36],
-            }
+        recommendations = {
+            19995: [
+                {
+                    "id": 679,
+                    "title": "Aliens",
+                    "similarity_score": 0.42,
+                },
+                {
+                    "id": 348,
+                    "title": "Alien",
+                    "similarity_score": 0.36,
+                },
+            ],
+            679: [
+                {
+                    "id": 19995,
+                    "title": "Avatar",
+                    "similarity_score": 0.42,
+                },
+                {
+                    "id": 348,
+                    "title": "Alien",
+                    "similarity_score": 0.36,
+                },
+            ],
+            348: [
+                {
+                    "id": 679,
+                    "title": "Aliens",
+                    "similarity_score": 0.42,
+                },
+                {
+                    "id": 19995,
+                    "title": "Avatar",
+                    "similarity_score": 0.36,
+                },
+            ],
+        }
+
+        return pd.DataFrame(
+            recommendations.get(movie_id, [])[:top_n],
+            columns=["id", "title", "similarity_score"],
         )
-
-        return recommendations.head(top_n)
 
 
 @pytest.fixture
@@ -87,12 +119,12 @@ def test_recommendation_workflow(fake_app_dependencies):
 
     assert not app.exception
 
-    assert app.session_state["selected_movie"] == "Avatar"
+    assert app.session_state["selected_movie_id"] == 19995
+    assert app.session_state["top_n"] == 5
 
     assert any("Recommended movies" in element.value for element in app.markdown)
 
     assert any("Aliens" in element.value for element in app.markdown)
-
     assert any("Alien" in element.value for element in app.markdown)
 
 
@@ -107,7 +139,7 @@ def test_recommendation_count_selection(fake_app_dependencies):
     app.button[0].click().run()
 
     assert not app.exception
-    assert app.session_state["selected_movie"] == "Avatar"
+    assert app.session_state["selected_movie_id"] == 19995
     assert app.session_state["top_n"] == 10
 
 

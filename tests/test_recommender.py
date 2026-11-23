@@ -83,3 +83,77 @@ def test_recommend_rejects_invalid_movie_title(
 ):
     with pytest.raises(ValueError, match="movie_title"):
         recommender.recommend(movie_title)
+
+
+def test_recommend_by_id_returns_recommendations(recommender):
+    movie_id = recommender.movies.iloc[0]["id"]
+
+    result = recommender.recommend_by_id(
+        int(movie_id),
+        top_n=3,
+    )
+
+    assert len(result) == 3
+    assert movie_id not in result["id"].tolist()
+    assert list(result.columns) == [
+        "id",
+        "title",
+        "similarity_score",
+    ]
+
+
+def test_recommend_by_id_rejects_unknown_id(recommender):
+    with pytest.raises(ValueError, match="Movie ID not found"):
+        recommender.recommend_by_id(999999)
+
+
+def test_recommend_by_id_rejects_invalid_id(recommender):
+    for movie_id in ["19995", None, 1.5, True]:
+        with pytest.raises(ValueError, match="movie_id must be an integer"):
+            recommender.recommend_by_id(movie_id)
+
+
+def test_recommend_rejects_duplicate_titles():
+    movies = pd.DataFrame(
+        {
+            "id": [101, 102, 103],
+            "title": ["King Kong", "King Kong", "Avatar"],
+        }
+    )
+
+    matrix = csr_matrix(
+        [
+            [1.0, 0.0],
+            [0.0, 1.0],
+            [0.5, 0.5],
+        ]
+    )
+
+    model = MovieRecommender(matrix, movies)
+
+    with pytest.raises(ValueError, match="Multiple movies found"):
+        model.recommend("King Kong")
+
+
+def test_recommend_by_id_handles_duplicate_titles():
+    movies = pd.DataFrame(
+        {
+            "id": [101, 102, 103],
+            "title": ["King Kong", "King Kong", "Avatar"],
+        }
+    )
+
+    matrix = csr_matrix(
+        [
+            [1.0, 0.0],
+            [0.0, 1.0],
+            [0.5, 0.5],
+        ]
+    )
+
+    model = MovieRecommender(matrix, movies)
+
+    result = model.recommend_by_id(102, top_n=1)
+
+    assert len(result) == 1
+    assert result.iloc[0]["id"] == 103

@@ -25,7 +25,20 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 CSS_PATH = PROJECT_ROOT / "app" / "styles" / "main.css"
 
 load_dotenv(PROJECT_ROOT / ".env")
-TMDB_API_KEY = os.getenv("TMDB_API_KEY")
+
+
+def get_tmdb_api_key() -> str:
+    """Read the TMDB API key from Streamlit secrets or local environment."""
+
+    try:
+        secret_key = st.secrets.get("TMDB_API_KEY", "")
+    except (FileNotFoundError, KeyError):
+        secret_key = ""
+
+    return str(secret_key or os.getenv("TMDB_API_KEY", "")).strip()
+
+
+TMDB_API_KEY = get_tmdb_api_key()
 
 
 # --------------------------------------------------
@@ -79,7 +92,6 @@ def load_css() -> None:
 
     try:
         css = CSS_PATH.read_text(encoding="utf-8")
-
     except OSError:
         logger.exception("Failed to read application stylesheet.")
         return
@@ -104,6 +116,11 @@ def load_recommender() -> MovieRecommender:
     logger.info("Recommendation model loaded successfully.")
 
     return recommender
+
+
+# --------------------------------------------------
+# Display functions
+# --------------------------------------------------
 
 
 def display_selected_movie(
@@ -145,21 +162,21 @@ def display_selected_movie(
 
 def display_recommendations(
     recommender: MovieRecommender,
-    movie_title: str,
+    movie_id: int,
     recommendation_count: int,
 ) -> None:
     """Generate and display movie recommendations."""
 
     try:
-        recommendations = recommender.recommend(
-            movie_title,
+        recommendations = recommender.recommend_by_id(
+            movie_id=movie_id,
             top_n=recommendation_count,
         )
 
     except ValueError as error:
         logger.warning(
-            "Could not generate recommendations for %s: %s",
-            movie_title,
+            "Could not generate recommendations for movie ID %s: %s",
+            movie_id,
             error,
         )
         st.error(str(error))
@@ -167,8 +184,8 @@ def display_recommendations(
 
     except Exception:
         logger.exception(
-            "Unexpected recommendation failure for movie %s.",
-            movie_title,
+            "Unexpected recommendation failure for movie ID %s.",
+            movie_id,
         )
         st.error(
             "An unexpected error occurred while generating "
@@ -193,15 +210,11 @@ def display_recommendations(
         movies_per_row,
     ):
         batch = recommendations.iloc[start : start + movies_per_row]
-
         columns = st.columns(movies_per_row)
 
-        for column, (_, movie) in zip(
-            columns,
-            batch.iterrows(),
-        ):
-            movie_id = int(movie["id"])
-            details = fetch_tmdb_details(movie_id)
+        for column, (_, movie) in zip(columns, batch.iterrows()):
+            recommended_movie_id = int(movie["id"])
+            details = fetch_tmdb_details(recommended_movie_id)
 
             poster_url = (
                 build_poster_url(details.get("poster_path")) if details else None
@@ -218,7 +231,7 @@ def display_recommendations(
             with column:
                 render_movie_card(
                     title=str(movie["title"]),
-                    movie_id=movie_id,
+                    movie_id=recommended_movie_id,
                     similarity_score=float(movie["similarity_score"]),
                     poster_url=poster_url,
                     overview=overview,
@@ -291,8 +304,8 @@ def main() -> None:
     except FileNotFoundError:
         logger.exception("Recommendation model artifacts are missing.")
         st.error(
-            "Model files are missing. Please generate the model "
-            "artifacts by running Notebook 05."
+            "Model files are missing. Generate them by running "
+            "`python -m scripts.train_model`."
         )
         st.stop()
 
@@ -304,21 +317,13 @@ def main() -> None:
         )
         st.stop()
 
-    movie_titles = (
-        recommender.movies["title"]
-        .dropna()
-        .astype(str)
-        .drop_duplicates()
-        .sort_values()
-        .tolist()
-    )
-
     st.markdown(
         '<div class="section-heading">Find similar movies</div>',
         unsafe_allow_html=True,
     )
 
-    selected_movie = render_movie_search(movie_titles)
+    # The search component now returns a TMDB movie ID.
+    selected_movie_id = render_movie_search(recommender.movies)
 
     col1, col2 = st.columns([1, 4])
 
@@ -341,44 +346,44 @@ def main() -> None:
         "Get Recommendations",
         use_container_width=True,
     ):
-        if not selected_movie:
+        if selected_movie_id is None:
             st.warning("Please select a movie first.")
 
         else:
-            st.session_state["selected_movie"] = selected_movie
+            selected_movie_id = int(selected_movie_id)
+
+            st.session_state["selected_movie_id"] = selected_movie_id
             st.session_state["top_n"] = top_n
 
             logger.info(
-                "User requested recommendations for %s (top_n=%s).",
-                selected_movie,
+                "User requested recommendations for movie ID %s (top_n=%s).",
+                selected_movie_id,
                 top_n,
             )
 
     # Display results after the user requests recommendations.
-    if "selected_movie" in st.session_state:
-        movie_title = st.session_state["selected_movie"]
+    if "selected_movie_id" in st.session_state:
+        movie_id = st.session_state["selected_movie_id"]
         recommendation_count = st.session_state["top_n"]
 
-        selected_rows = recommender.movies[
-            recommender.movies["title"].astype(str).str.strip().str.casefold()
-            == movie_title.strip().casefold()
-        ]
+        selected_rows = recommender.movies.loc[recommender.movies["id"] == movie_id]
 
         if selected_rows.empty:
-            st.error(f"Movie not found: {movie_title}")
+            st.error(f"Movie ID not found: {movie_id}")
+            st.session_state.pop("selected_movie_id", None)
             st.stop()
 
-        selected = selected_rows.iloc[0]
-        selected_id = int(selected["id"])
+        selected_movie = selected_rows.iloc[0]
+        movie_title = str(selected_movie["title"])
 
         display_selected_movie(
             movie_title=movie_title,
-            movie_id=selected_id,
+            movie_id=movie_id,
         )
 
         display_recommendations(
             recommender=recommender,
-            movie_title=movie_title,
+            movie_id=movie_id,
             recommendation_count=recommendation_count,
         )
 
